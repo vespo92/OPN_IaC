@@ -1,0 +1,20 @@
+name: webapp
+image: nginx:latest
+network_config:
+  vlan_id: 100
+  ip_address: 192.168.100.10
+  mac_address: 00:00:00:00:01:01
+  parent_interface: igc2
+  allow_internet: true
+ports:
+  - host_port: 80
+    container_port: 80
+    protocol: tcp
+  - host_port: 443
+    container_port: 443
+    protocol: tcp
+environment:
+  NGINX_HOST: example.com
+volumes:
+  ./html:/usr/share/nginx/html
+restart_policy: unless-stopped

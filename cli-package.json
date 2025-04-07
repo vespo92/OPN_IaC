@@ -1,0 +1,30 @@
+{
+  "name": "opn-cli",
+  "version": "1.0.0",
+  "description": "CLI for OPNsense Infrastructure as Code",
+  "main": "cli.js",
+  "type": "module",
+  "bin": {
+    "opn-cli": "./cli.js"
+  },
+  "scripts": {
+    "start": "bun run cli.js",
+    "link": "bun link"
+  },
+  "keywords": [
+    "opnsense",
+    "infrastructure",
+    "iac",
+    "cli"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^11.1.0",
+    "inquirer": "^9.2.12",
+    "js-yaml": "^4.1.0",
+    "node-fetch": "^3.3.2",
+    "ora": "^7.0.1"
+  }
+}

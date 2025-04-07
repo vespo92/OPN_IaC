@@ -1,0 +1,25 @@
+{
+  "name": "opn-iac",
+  "version": "1.0.0",
+  "description": "Infrastructure as Code for OPNsense",
+  "main": "index.js",
+  "scripts": {
+    "start": "bun run server.js",
+    "dev": "bun run --watch server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "opnsense",
+    "iac",
+    "infrastructure",
+    "django"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.1"
+  }
+}

@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: opn_django
+    volumes:
+      - ./OPN_Django:/app/OPN_Django
+      - ./frontend:/app/frontend
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=True
+      - DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
+      - SECRET_KEY=django-insecure-change-this-in-production
+      - POSTGRES_DB=opn_django
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - OPNSENSE_API_URL=
+      - OPNSENSE_API_KEY=
+      - OPNSENSE_API_SECRET=
+      - OPNSENSE_API_VERIFY_SSL=False
+      - DOCKER_API_URL=http://docker-proxy:2375
+    depends_on:
+      - db
+      - docker-proxy
+    command: bun run start
+    restart: unless-stopped
+
+  db:
+    image: postgres:14
+    container_name: opn_postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=opn_django
+    ports:
+      - "5432:5432"
+
+  docker-proxy:
+    image: tecnativa/docker-socket-proxy:latest
+    container_name: opn_docker_proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - CONTAINERS=1
+      - IMAGES=1
+      - NETWORKS=1
+      - VOLUMES=1
+      - SERVICES=1
+      - EXEC=1
+      - AUTH=1
+    ports:
+      - "2375:2375"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

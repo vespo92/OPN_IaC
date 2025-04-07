@@ -1,0 +1,25 @@
+opnsense-iac/
+├── opnsense_iac/
+│   ├── __init__.py
+│   ├── cli.py               # Command-line interface
+│   ├── config_manager.py    # Core functionality for managing configs
+│   ├── models/              # Data models representing OPNsense objects
+│   │   ├── __init__.py
+│   │   ├── interface.py     # Models for network interfaces
+│   │   ├── vlan.py          # Models for VLAN configurations
+│   │   ├── firewall.py      # Models for firewall rules
+│   │   └── dhcp.py          # Models for DHCP configuration
+|	|	|__ haproy.py		 # Models to interace with HA Proxy
+│   ├── api/                 # API client for OPNsense REST API
+│   │   ├── __init__.py
+│   │   └── client.py
+│   └── utils/               # Utility functions
+│       ├── __init__.py
+│       └── xml_utils.py     # XML parsing and manipulation
+├── tests/                   # Unit tests
+│   └── __init__.py
+├── examples/                # Example usages
+│   └── deploy_container.py  # Example container deployment script
+├── config.yaml.example      # Example configuration
+├── setup.py                 # Package setup script
+└── README.md                # Documentation

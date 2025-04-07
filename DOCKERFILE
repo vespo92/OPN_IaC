@@ -1,0 +1,46 @@
+FROM oven/bun:1.0 as bun
+
+# Set working directory
+WORKDIR /app
+
+# Install Python 3.11
+RUN apt-get update && apt-get install -y \
+    python3.11 \
+    python3-pip \
+    python3.11-venv \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create and activate virtual environment
+RUN python3.11 -m venv /venv
+ENV PATH="/venv/bin:$PATH"
+
+# Copy requirements first for better caching
+COPY OPN_Django/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy frontend package dependencies
+COPY package.json package.json
+COPY bun.lockb* bun.lockb
+
+# Install frontend dependencies
+RUN bun install
+
+# Copy the Django application
+COPY OPN_Django /app/OPN_Django/
+
+# Copy frontend assets
+COPY frontend /app/frontend/
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+ENV DJANGO_SETTINGS_MODULE=OPN_Django.settings
+
+WORKDIR /app
+
+# Create start script
+RUN echo '#!/bin/bash\npython /app/OPN_Django/manage.py migrate\npython /app/OPN_Django/manage.py collectstatic --noinput\nbun run start' > /app/start.sh \
+    && chmod +x /app/start.sh
+
+EXPOSE 8000
+
+CMD ["/app/start.sh"]

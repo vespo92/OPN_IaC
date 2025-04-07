@@ -1,0 +1,25 @@
+name: game-server
+image: steamcmd/steamcmd:latest
+network_config:
+  vlan_id: 101
+  ip_address: 192.168.101.10
+  mac_address: 00:00:00:00:02:01
+  parent_interface: igc2
+  allow_internet: true
+ports:
+  - host_port: 27015
+    container_port: 27015
+    protocol: udp
+  - host_port: 27016
+    container_port: 27016
+    protocol: udp
+  - host_port: 27017
+    container_port: 27017
+    protocol: tcp
+environment:
+  GAME_PORT: 27015
+  GAME_TYPE: csgo
+  RCON_PASSWORD: secure_password_here
+volumes:
+  ./game-data:/steamcmd/games
+restart_policy: unless-stopped
